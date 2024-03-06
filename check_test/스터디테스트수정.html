@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>음료자판기</title>
+        <style>
+          .body {
+            width: 400px; height: 500px;
+            border: 2px solid black;
+            background-color: white;
+            position: relative; 
+          }
+
+          .body_1 {
+            width: 370px; height: 170px;
+            border: 2px solid rgb(173, 173, 173);
+            background-color: white;
+            position: absolute;
+            left: 15px; top: 15px;
+        }
+
+        .body_1_coca {
+            width: 100px; height:140px ;
+            border: 1px solid rgb(173, 173, 173); 
+            background-color: white;
+            position: absolute;
+            left: 15px; top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .body_1_coca img{ 
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .body_1_coca h2 {
+            margin: 0;
+        }
+        .body_1_coca p {
+            margin: 0;
+        }
+
+        .body_1_cider {
+            width: 100px; height: 140px;
+            border: 1px solid rgb(173, 173, 173);
+            background-color: white;
+            position: absolute;
+            left: 135px; top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .body_1_cider img{ 
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .body_1_cider h2 {
+            margin: 0;
+        }
+        .body_1_cider p {
+            margin: 0;
+        }
+
+        .body_1_fanta {
+            width: 100px; height: 140px;
+            border: 1px solid rgb(173, 173, 173);
+            background-color: white;
+            position: absolute;
+            left: 255px; top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .body_1_fanta img{ 
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .body_1_fanta h2 {
+            margin: 0;
+        }
+        .body_1_fanta p {
+            margin: 0;
+        }
+
+        
+        img{
+            border: 1px solid rgb(173, 173, 173);
+            margin-top: 5px;
+           
+        }
+
+        .body_2 {
+            width: 370px; height: 50px;
+            border: 2px solid rgb(173, 173, 173);
+            background-color: white;
+            position: absolute;
+            left: 15px; top: 210px;
+            position: relative;
+        }
+
+        .body_2 input[type="text"] {
+            width: 250px; height: 25px;
+            padding: 5px;
+            margin-right: 10px;
+            position: absolute;
+            top: 7px; left: 13px;
+            text-align: right;
+            font-size: 25px;
+            font-weight: 700;
+            color: red;
+        }
+
+        .body_2 input[type="button"] {
+            width: 50px; height: 35px;
+            padding: 5px;
+            position: absolute;
+            top: 7px; right: 17px;
+            font-size: 17px;
+        }
+       
+        .body_3{
+            width: 370px; height: 100px;
+            border: 2px solid rgb(173, 173, 173);
+            background-color: white;
+            position: absolute;
+            left: 15px; top: 275px;
+            text-align: center;
+            line-height: 60px;
+        }
+        
+        .body_4{
+            width: 370px; height: 100px;
+            border: 2px solid rgb(173, 173, 173);
+            background-color: white;
+            position: absolute;
+            left: 15px; top: 385px;
+            text-align: left;
+            line-height: 60px;
+        }
+
+        .circle {
+            width: 50px; height: 50px;
+            font-size: 20px;
+            background-color: rgb(239, 239, 239);
+            border: 2px solid rgb(173, 173, 173);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            float: left;
+            margin-top: 8px;
+            margin-left: 280px;
+            position: absolute;
+        }
+        
+         </style>
+        </head>
+    <body>
+        <div class="body">
+                <div class="body_1">
+                    <div class="body_1_coca" onclick="displayProduct('콜라');">
+                            <img src="./img/콜라.jpeg" width="80px" height="80px">
+                        <h2>콜라</h2>
+                        <p>1,000원</p>
+                        </div>
+
+                <div class="body_1_cider" onclick="displayProduct('사이다');">
+                <img src="./img/사이다.jpg" width="80px" height="80px">
+            <h2>사이다</h2>
+            <p>500원</p>
+            </div>
+            
+                <div class="body_1_fanta" onclick="displayProduct('환타');">
+                    <img src="./img/환타.jpg" width="80px" height="80px">
+                <h2>환타</h2>
+                <p>700원</p>
+                </div>
+            </div>
+
+            <div class="body_2">
+                <input type="text" id="body_2" value="0">
+                <input type="button" id="body_2" value="투입" onclick="plus();">
+            </div>
+            <script>
+                function plus() {
+                    var moneyInput=document.getElementById('body_2');
+                    var currentMoney = parseInt(moneyInput.value,10); //충돌을 없애줌. , 문자를 정수로 변환, 10은 10진수라는 의미
+                    var newMoney =currentMoney + 100;
+                    moneyInput.value=newMoney;
+                }
+            </script>
+            <div class="body_3" id="displayProduct">
+            <h2>상품나오는 곳</h2></div>
+            
+            <div class="body_4">
+                <h2>거스름돈 나오는 곳</h2>
+                <div class="circle">0</div>
+            </div>
+
+            <script>
+                function displayProduct(cola) {
+                    var moneyInput=document.getElementById('body_2');
+                    var currentMoney =parseInt(moneyInput.value,10);
+
+                    if(currentMoney >=1000) {
+                        var body_4Money =currentMoney-1000;
+                        moneyInput.value=body_4Money;
+                } else {
+                    alert('돈이 부족합니다.');
+                }
+            }
+            
+                function displayproduct(sa) {
+                    var moneyInput = document.getElementById('body_2');
+                var currentMoney = parseInt(moneyInput.value, 10);
+
+                if (currentMoney >= 500) {
+                    var body_4Money = currentMoney - 500;
+                    moneyInput.value = body_4Money;
+                } else {
+                    alert('돈이 부족합니다.');
+                }
+            }
+
+                function displayProduct(ta) {
+                var moneyInput = document.getElementById('body_2');
+                var currentMoney = parseInt(moneyInput.value, 10);
+
+                if (currentMoney >= 700) {
+                    var body_4Money = currentMoney - 700;
+                    moneyInput.value = body_4Money;
+                } else {
+                    alert('돈이 부족합니다.');
+                }
+            }
+
+            </script>
+        </div>
+    </body>
+
+</html>
