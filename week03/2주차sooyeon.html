@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>케로로</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+       /*옵션을 선택할 수 있는 드롭다운 메뉴 생성*/
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <h2>프로듀스 케로로</h2>
+    <!-- 각 옵션들은 <option> 요소로 정의되었고 이 요소의 value속성에 각 옵션의 값을 지정-->
+        <!--이때 드롭다운 메뉴는 id="optionSelect"로 식별-->
+    <select id="optionSelect">
+        <option value="">옵션을 선택하세요</option>
+        <option value="케로로">케로로</option>
+        <option value="도로로">도로로</option>
+        <option value="타마마">타마마</option>
+    </select>
+    
+    <script>
+      //optionSelect라는 id를 가진 요소에 change 이벤트 리스너를 추가
+      //사용자가 드롭다운에서 옵션을 변경할 때마다 해당 함수 실행
+      document.getElementById("optionSelect").addEventListener("change",function() {
+        var selectedOption=this.value;
+
+        //이벤트 핸들러 함수 내에서는 선택된 옵션을 가져와서 스위치 문을 사용하여 옵션에 따라 알림창 띄움.
+        switch(selectedOption) {
+                case "케로로":
+                    alert("중사입니다.");
+                    break;
+                case "도로로":
+                    alert("병장입니다.");
+                    break;
+                case "타마마":
+                    alert("이등병입니다.");
+                    break;
+                default:
+                    alert("올바른 옵션을 선택해주세요.");
+                    break;
+        }
+    });
+        
+    </script>
+    </body>
+    </html>
