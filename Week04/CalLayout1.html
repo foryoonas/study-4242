@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계산기 만들기</title>
+    <style>
+        .calculator {
+            width: 540px; 
+            height: 300px; 
+            margin: 0 auto;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgb(222, 222, 222);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        
+        .display {
+            font-size: 24px;
+            background-color: rgb(222, 222, 222);
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: right;
+            height: 30px;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-evenly;
+            flex-grow: 1;
+        }
+        
+        .buttons button {
+           width: 60px;
+           height: 40px;
+            flex-grow: 3; 
+            font-size: 20px;
+            margin: 2px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+        .zero {
+            flex-basis: 200px;
+            justify-content: space-evenly;
+        }
+
+        .equal {
+            flex-direction: row;
+            flex-basis: 500px;
+        }
+        </style>
+        </head>
+        <body>
+        <div class="calculator">
+            <div class="display" id="display">0</div>
+            <div class="buttons">
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+                <button onclick="appendToDisplay('+')">+</button>
+            </div>
+            <div class="buttons">
+                <button onclick="appendToDisplay('6')">6</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('-')">-</button>
+            </div>
+            <div class="buttons">
+                <button onclick="appendToDisplay('3')">3</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('*')">*</button>
+            </div>
+            <div class="buttons">
+                <button class="zero" onclick="appendToDisplay('0')">0</button>
+                <button onclick="appendToDisplay('.')">.</button>
+                <button onclick="appendToDisplay('/')">/</button>
+            </div>
+            <div class="buttons">
+                <button class="equal"  onclick="calculate()">=</button>
+            </div>
+        </div>
+        
+        <script>
+            //id가 display인 요소를 찾아 display변수에 할당.
+            //이 요소는 계산 결과나 현재 입력 값을 표시하는 display 역할함
+            let display = document.getElementById('display');
+            
+            //appendToDisplay 함수: 버튼을 클릭할 때마다 호출되며, 전달된 value값을 디스플레이에 추가
+            //현재 display에는 0이 표시, 추가할 값이 "."이 아닌 경우에만 0을 지우고 입력값을 디스플레이에 표시(즉, 버튼을 클릭하여 다른 숫자를 입력하면 0을 지우고 새로운 숫자를 디스플레이에 표시)
+            function appendToDisplay(value) {
+                if (display.textContent === '0' && value !== '.') {
+                    display.textContent = '';
+                }
+                display.textContent += value; // 현재 디스플레이에 표시된 내용 뒤에 value 변수에 저장된 값을 추가
+            }
+
+            //eval()함수: 문자열로 표현된 자바스크립트 코드를 동적으로 실행 
+            function calculate() {
+                try {
+                    display.textContent = eval(display.textContent);  //계산된 결과를 디스플레이에 표시(eval함수의 반환 값을 디스플레이의 텍스트 내용으로 설정)
+                } catch (error) {
+                    display.textContent = 'error';
+                }
+            }
+            </script>
+            
+            </body>
+            </html>
