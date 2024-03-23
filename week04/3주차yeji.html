@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학생 정보 수집 문제</title>
+</head>
+
+<body>
+    <div id="studentInfo"></div>
+
+    <script>
+        const students = [
+            {
+                이름: '설윤아',
+                나이:21,
+                정보: {
+                    키:160,
+                    시력:1.5,
+                },
+                hobbies: ['드라마보기','노래듣기'],
+                성별:'여성'
+            },
+            {
+                이름:'박은빈',
+                나이:33,
+                정보: {
+                    키:160,
+                    시력:1.5,
+                },
+                hobbies: ['춤추기','책읽기'],
+                성별: '여성'
+            },
+            {
+                이름: '서현진',
+                나이: 40,
+                정보: {
+                    키:167,
+                    시력:1.0,
+                },
+                hobbies: ['노래부르기','뜨개질'],
+                성별: '여성'
+            },
+        ];
+
+        const studentinfoContainer=document.getElementById('studentInfo');
+
+        function createStudentList(students) {
+            const list = document.createElement('ul');
+
+            students.forEach(student => {
+                const listItem=document.createElement('li');
+                listItem.textContent=`
+                이름: ${student.이름},
+                나이: ${student.나이},
+                키: ${student.정보.키},
+                시력: ${student.정보.시력},
+                좋아하는 활동: ${student.hobbies.join(', ')},
+                성별: ${student.성별}
+                `;
+                list.appendChild(listItem);
+            });
+            return list;
+        }
+        const studentList = createStudentList(students);
+        studentinfoContainer.appendChild(studentList);
+    </script>
+</body>
+</html>
