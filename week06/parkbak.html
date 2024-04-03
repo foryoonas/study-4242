@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>두 수 합의 제곱</title>
+</head>
+<body>
+    <script>
+        //두 수를 더하는 함수
+             function add(x,y) {
+                return x+y;
+        
+        }
+        //숫자를 제곱하는 함수
+            function square(num) {
+                return num*num;
+
+            }
+        //숫자 두 개의 합을 제곱하는 함수
+        function addsquare(x,y) {
+            return square(add(x,y));
+
+        }
+
+        //사용자한테 숫자 두 개 값 입력받기
+        var num1=parseInt(prompt('첫 번째 수를 입력하세요.'));
+        var num2=parseInt(prompt('두 번째 수를 입력하세요.'));
+
+
+        var result = addsquare(num1, num2);
+        
+        //결과 출력
+        alert("두 숫자의 합의 제곱: "+result);
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최댓값과 최솟값 구하기</title>
+</head>
+<body>
+    <script>
+        // 숫자 배열에서 최댓값과 최솟값 비교하기
+
+        function MaxOrMin(numbersInput) {
+            // 숫자 입력이 비어있을 경우 "숫자를 다시 입력해주세요." 출력
+            if (numbersInput.length === 0) {
+                return "숫자를 다시 입력해주세요.";
+            }
+
+            // 각 배열 요소를 숫자로 변환
+            function convertNum(arr) {   //위의 코드가 그렇지 않으면 내부 함수인 convertNum을 사용하여 입력 문자열을 숫자 배열로 변환. 
+                for (var i = 0; i < arr.length; i++) {
+                    arr[i] = Number(arr[i]); // 각 요소를 숫자로 변환
+                }
+                return arr; // 변환된 숫자 배열 반환
+            }
+
+            // split 입력된 숫자들을 공백을 기준으로 구별하여 숫자 배열로 변환
+            function splitconvert(input) { //input이라는 매개변수는 공백으로 구분된 숫자들로 이루어진 문자열이다.
+                var numbersArray = input.split(" "); // input 문자열을 공백을 기준으로 분리하고 이렇게 분리된 문자열은 각각 숫자를 나타내는 문자열이다.
+                return convertNum(numbersArray); // convertNum이라는 다른 함수를 호출하여 각 분리된 숫자 문자열을 숫자로 변환. 일반적으로 각 요소를 숫자로 변환하는 기능
+            }
+
+            // 입력된 숫자 문자열을 숫자 배열로 변환
+            let numbersArray = splitconvert(numbersInput);
+            //결과적으로 splitconvert 함수는 공백으로 구분된 숫자들로 이루어진 문자열을 받아들여 숫자 배열로 변환하여 반환.
+
+            let max = numbersArray[0]; // 최댓값 초기화
+            let min = numbersArray[0]; // 최솟값 초기화
+
+            // 최댓값과 최솟값 찾기
+            for (let i = 1; i < numbersArray.length; i++) {
+                if (numbersArray[i] > max) {
+                    max = numbersArray[i]; // 최댓값 갱신
+                }
+                if (numbersArray[i] < min) {
+                    min = numbersArray[i]; // 최솟값 갱신
+                }
+            }
+
+            // 최댓값과 최솟값 반환
+            return "최댓값은 " + max + ", 최솟값은 " + min;
+        }
+
+        // 임의의 숫자 5개 지정 (ex.10 9 4 5 2)
+        const numbersInput = '3 100 2 6 0 5';
+        console.log(MaxOrMin(numbersInput)); // 결과 출력
+    </script>
+</body>
+</html>

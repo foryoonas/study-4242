@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function sum(arr) {
+            var sum=0;
+            for(var i=0; i<arr.length; i++){
+                if(arr[i] % 2 !==0) { // 숫자가 홀수인지 확인인
+                sum += arr[i];  //홀수를 합에 더함
+            }
+        }
+        return sum;
+    }
+        console.log(sum([1,2,3,4,5]));
+        </script>
+</body>
+</html>
