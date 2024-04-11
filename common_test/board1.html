@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초간단 게시판 만들기</title>
+    <style>
+     body {
+        text-align: center;
+    }
+    #authorinput, #contentinput {
+        height: 50px;
+        margin: 0 auto;
+    }
+
+    button {
+            width: 100px;
+            height: 40px;
+            background-color: rgb(236, 235, 235);
+            color: #000000;
+            border: 1px solid #000000;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cacbc5;
+        }
+
+       table {
+        width: 100%;
+        height: 30px;
+        margin: 20px auto;
+        border-collapse: collapse;
+       }
+
+       th,td {
+        border: 1px solid #000000;
+        padding: 8px; 
+       }
+       th:first-child, td:first-child {
+            width: 40px; /* 번호 */
+        }
+        th:nth-child(2), td:nth-child(2) {
+            width: 70px; /* 작성자 */
+        }
+        th:nth-child(3), td:nth-child(3) {
+            width: 400px; /* 내용 */
+        }
+        th:nth-child(4), td:nth-child(4) {
+            width: 200px; /* 작성일 */
+        }
+       
+    </style>
+</head>
+<body>
+    <h1>게시판</h1>
+    <input type="text" id="authorinput" placeholder="작성자" size="20">
+    <input type="text"  id="contentinput" placeholder="글 내용" size="50">
+    <button id="submitButton">글 작성</button>
+    <table id="postList">
+        <thead>
+            <tr> <!--1번 행-->
+                <th>번호</th> <!--1번 행 안에 각각 나열됨-->
+                <th>작성자</th>
+                <th>내용</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 이 부분에 입력하는 게시물이 추가된다. -->
+        </tbody>
+    </table>
+    <script>
+        let postCounter = 0;
+
+        const submitButton = document.getElementById('submitButton');
+        const authorInput = document.getElementById('authorinput');
+        const contentInput = document.getElementById('contentinput');
+        const postList = document.querySelector('#postList tbody');
+
+        submitButton.addEventListener('click', () => {
+            const author = authorInput.value;
+            const content = contentInput.value;
+            const date = new Date().toLocaleDateString();
+            postCounter++;
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${postCounter}</td>
+                <td>${author}</td>
+                <td>${content}</td>
+                <td>${date}</td>
+            `;
+            postList.appendChild(newRow);
+            // 입력 필드 초기화
+            authorInput.value = '';
+            contentInput.value = '';
+        });
+    </script>
+</body>
+</html>
