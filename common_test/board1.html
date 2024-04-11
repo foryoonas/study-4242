@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초간단 게시판 만들기</title>
+    <style>
+     body {
+        text-align: center;
+    }
+    #authorinput, #contentinput {
+        height: 50px;
+        margin: 0 auto;
+    }
+
+    button {
+            width: 100px;
+            height: 40px;
+            background-color: rgb(236, 235, 235);
+            color: #000000;
+            border: 1px solid #000000;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cacbc5;
+        }
+
+       table {
+        width: 100%;
+        height: 30px;
+        margin: 20px auto;
+        border-collapse: collapse;
+       }
+
+       th,td {
+        border: 1px solid #000000;
+        padding: 8px; 
+       }
+       th:first-child, td:first-child {   /*<th>, <td> 요소 중 첫 번째 자식 요소를 선택하고, 각 표의 첫 번째 행의 셀과 각 행의 첫 번째 셀을 선택한다.*/
+            width: 40px; /* 번호 */
+        }
+        th:nth-child(2), td:nth-child(2) { /*<th>, <td> 요소 중 두 번째 자식 요소를 선택하고, 각 표의 두 번째 행의 셀과 각 행의 두 번째 셀을 선택한다.*/
+            width: 70px; /* 작성자 */
+        }
+        th:nth-child(3), td:nth-child(3) { /*<th>, <td> 요소 중 세 번째 자식 요소를 선택하고, 각 표의 세 번째 행의 셀과 각 행의 세 번째 셀을 선택한다.*/
+            width: 400px; /* 내용 */ 
+        }
+        th:nth-child(4), td:nth-child(4) { /*<th>, <td> 요소 중 네 번째 자식 요소를 선택하고, 각 표의 네 번째 행의 셀과 각 행의 네 번째 셀을 선택한다.*/
+            width: 200px; /* 작성일 */
+        }
+       
+    </style>
+</head>
+<body>
+    <h1>게시판</h1>
+    <input type="text" id="authorinput" placeholder="작성자" size="20">
+    <input type="text"  id="contentinput" placeholder="글 내용" size="50">
+    <button id="submitButton">글 작성</button>
+    <table id="postList">
+        <thead>
+            <tr> <!--1번 행-->
+                <th>번호</th> <!--1번 행 안에 각각 나열됨-->
+                <th>작성자</th>
+                <th>내용</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 이 부분에 입력하는 게시물이 추가된다. -->
+        </tbody>
+    </table>
+    <script>
+        let postCounter = 0;    //게시물 번호를 추적하기 위한 변수를 선언한다. 이 변수는 게시물이 추가될 때마가 증가한다. 
+        const posts = []; // 객체 배열 posts를 선언. 이 배열은 추가된 게시물들을 저장할 때 사용
+
+        //submitButton , authorInput , contentInput , postList는 html에서 
+        //submit 버튼, 작성자 입력 필드, 내용 입력 필드, 게시물 목록 테이블을 자바스크립트로 가져온다.
+        const submitButton = document.getElementById('submitButton'); //클릭 이벤트를 수신하면 게시물을 추가하는 함수 호출
+        const authorInput = document.getElementById('authorinput'); 
+        const contentInput = document.getElementById('contentinput');
+        const postList = document.querySelector('#postList tbody');
+
+        submitButton.addEventListener('click', function() {  //submitButton에 클릭 이벤트 리스너를 추가하여 클릭 이벤트가 발생하면 아래의 함수가 실행된다.
+        const author = authorInput.value;  //클릭 이벤트 핸들러 함수 내부에서는 입력된 작성자(authorInput.value)와 
+        const content = contentInput.value;  //내용(contentInput.value)을 가져와 변수에 저장하고
+        const date = new Date().toLocaleDateString(); //현재 날짜를 가져와 변수에 저장한다. (toLocaleDateString() 메서드는 Date 객체의 메서드 중 하나로 지정된 로케일에 따라 날짜를 현지화된 문자열로 변환해준다.)
+    
+             postCounter++; // 게시물 번호 증가
+
+           
+        // 새로운 게시물 객체 생성하여 id, author, content, date 속성을 갖도록 한다.
+        //사용자가 작성한 게시물을 객체로 생성하여 해당 객체를 배열에 추가하고 html 테이블에 새로운 행으로 추가하는 부분이다.
+        const newPost = {    
+            id: postCounter,  
+            author: author,
+            content: content,
+            date: date
+        };
+
+         // 새로 생성한 게시물 객체를 배열에 추가
+         posts.push(newPost);
+
+         // 새로운 행을 테이블에 추가
+         const newrow = document.createElement('tr');
+         newrow.innerHTML = `
+            <td>${newPost.id}</td>
+            <td>${newPost.author}</td>
+            <td>${newPost.content}</td>
+            <td>${newPost.date}</td>
+        `;
+            postList.appendChild(newrow);  
+            //appendChild() 메서드: 지정된 노드를 특정 노드의 자식 노드로 추가하는 자바스크립트 메서드
+             //1. appendChild() 메서드는 요소를 부모의 마지막 자식으로 추가되어 새로운 게시물은 기존 게시물의 뒤에 추가되어 순서가 유지된다.
+             //2. appendChild() 메서드는 간단하고 직관적으로 새로운 요소를 추가할 수 있어 작업 수행이 간편하다.
+             //사용자가 게시물을 추가할 때마다 html 테이블에 새로운 행이 추가되어 새로운 게시물이 표시되게 된다.
+           
+            // 입력 필드 초기화 -> 다음 게시물을 작성할 수 있도록 한다.
+            authorInput.value = '';
+            contentInput.value = '';
+        });
+    </script>
+</body>
+</html>
