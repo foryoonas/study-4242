@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>댓글기능 게시판 만들기</title>
+    <style>
+     body {
+        text-align: center;
+    }
+    #authorinput, #contentinput {
+        height: 50px;
+        margin: 0 auto;
+    }
+
+    button {
+            width: 100px;
+            height: 40px;
+            background-color: rgb(236, 235, 235);
+            color: #000000;
+            border: 1px solid #000000;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cacbc5;
+        }
+
+       table {
+        width: 100%;
+        height: 30px;
+        margin: 20px auto;
+        border-collapse: collapse;
+       }
+
+       th,td {
+        border: 1px solid #000000;
+        padding: 8px; 
+       }
+       th:first-child, td:first-child {   
+            width: 40px; 
+        }
+        th:nth-child(2), td:nth-child(2) { 
+            width: 70px; 
+        }
+        th:nth-child(3), td:nth-child(3) { 
+            width: 400px; 
+        }
+        th:nth-child(4), td:nth-child(4) { 
+            width: 200px; 
+        }
+        th:nth-child(5), td:nth-child(5) { 
+            width: 200px; 
+        }
+        td button {
+        display: inline-block;
+        background-color: #d3faff; 
+        color: #000000; 
+        border-radius: 5px;
+        margin: 5px;
+        border-color: #36a4ff;
+    }
+       
+        td button:hover {
+            background-color: #a9c6ff;
+    }
+
+    
+    #searchContainer {
+        text-align: left;
+        margin-left: 20px;
+    }
+    #searchInput {
+        width: 200px;
+        height: 30px;
+        padding: 5px;
+        margin-right: 5px;
+    }
+    #searchButton, #clearSearchButton {
+        height: 40px;
+        background-color: rgb(236, 235, 235);
+        color: #000000;
+        border: 1px solid #000000;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    #searchButton:hover, #clearSearchButton:hover {
+        background-color: #cacbc5;
+    }
+
+    </style>
+</head>
+<body>
+    <h1>게시판</h1>
+    <input type="text" id="authorinput" placeholder="작성자" size="20">
+    <input type="text"  id="contentinput" placeholder="글 내용" size="50">
+    <button id="submitButton">글 작성</button>
+    <div id="buttonContainer" style="display: flex; justify-content: flex-end; margin-bottom: 5px; margin-top: 30px; gap: 3px; ">
+        <button id="saveButton" style="background-color: #d3faff;border-radius: 3px;border-color: #36a4ff;width: 170px;height: 30px;">저장하기</button>
+        <button id="open_file"style="background-color: #d3faff; border-radius: 3px;border-color: #36a4ff;width: 170px;height: 30px;">불러오기</button>
+        <button id="clearButton"style="background-color: #d3faff;border-radius: 3px;border-color: #36a4ff;width: 170px;height: 30px;" for="fileBtn" class='function-btn' id='open_file'>게시판 비우기</button>                                                       
+    </div> 
+    <table id="postList">
+        <thead>
+            <tr> 
+                <th>번호</th> 
+                <th>작성자</th>
+                <th>내용</th>
+                <th>작성일</th>
+                <th>기능</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    
+    <input type='file' id='fileBtn' style='display:none' accept='.json' title='Select JSON File'/>
+
+    
+    <div id="searchContainer" style="margin-bottom: 10px;">
+        <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+        <button id="searchButton">검색</button>
+        <button id="clearSearchButton">검색해제</button>
+    </div>
+
+    <script>
+        let postCounter = 0;    
+        const posts = [];
+
+        
+        const submitButton = document.getElementById('submitButton'); 
+        const authorInput = document.getElementById('authorinput'); 
+        const contentInput = document.getElementById('contentinput');
+        const postList = document.querySelector('#postList tbody');
+        const clearButton=document.getElementById('clearButton'); 
+
+        
+        authorInput.addEventListener('keypress',function(event) {
+            if(event.key=='Enter') {
+                contentInput.focus();
+            }
+        });
+
+        contentInput.addEventListener('keypress',function(event) { 
+            if(event.key=='Enter') { 
+                submitButton.click(); 
+            }
+        });
+
+        submitButton.addEventListener('click', function() {  
+            const author = authorInput.value; 
+            const content = contentInput.value;  
+            const date = new Date().toLocaleDateString();  
+            const time = new Date().toLocaleTimeString(); 
+            postCounter++; 
+
+        const newPost = {    
+            id: postCounter,  
+            author: author,
+            content: content,
+            date: `${date} ${time}` , 
+            comments: [] 
+        };
+
+         posts.push(newPost);
+         renderPosts();
+
+          authorInput.value = '';
+          contentInput.value = '';
+        });
+
+         function deletePost(postId) {
+            const confirmDelete = confirm("정말 삭제하시겠습니까?");
+            if (confirmDelete) {
+                const index = posts.findIndex(function(post) {
+                    return post.id === postId;
+            });
+
+                if (index !== -1) {
+                    posts.splice(index, 1); 
+                    for(let i = index; i<posts.length; i++) {
+                        posts[i].id = i+1; 
+                    } 
+                    renderPosts(); 
+                }
+            }
+        }
+          
+        function renderPosts() {
+             postList.innerHTML = '';
+
+             posts.forEach(function(post){ 
+                const newrow = document.createElement('tr'); 
+                newrow.innerHTML = `  
+                    <td>${post.id}</td>  
+                    <td>${post.author}</td>
+                    <td>
+                        ${post.content} 
+                        <ul>
+                        ${post.comments.map(comment => `<li>${comment}</li>`).join('')}  
+                        </ul>
+                    </td>
+                    <td>${post.date}</td>
+                    <td>
+                        <div style="display: flex;justify-content: center;">
+                        <button onclick="deletePost(${post.id})">삭제</button>
+                        <button onclick="addComment(${post.id})">댓글</button>
+                        </div>
+                    </td>
+             `;
+            postList.appendChild(newrow);  
+         });
+          
+    }
+             function addComment(postId) { 
+            const comment = prompt('댓글을 입력하세요');
+            if (comment !== null && comment.trim() !== '') { 
+                const post = posts.find(post => post.id === postId); 
+                const date = new Date().toLocaleString(); 
+                if (post) {
+                    post.content += `<br>➡️ ${comment} (${date}) `;
+                    renderPosts(); 
+                } 
+            }
+        }
+        clearButton.addEventListener('click', function() { 
+            posts.length = 0; 
+            renderPosts(); 
+    });
+
+
+        function downloadText(filename) {
+            if(contents.length==0) {
+                alert('저장할 데이터가 없습니다.');
+                return;
+            }
+            var element=document.createElement('a');
+            var jsonString=JSON.stringify(contents,null,4);
+
+            element.setAttribute('href','data:text/plain;charset=utf-8,'+encodeURIComponent(jsonString));
+            element.setAttribute('download',filename);
+            element.style.display='none';
+            document.body.appendChild(element);
+            element.click();
+
+            document.body.removeChild(element);
+        }
+
+            var contents=posts; 
+            document.getElementById('saveButton').addEventListener('click', function() {
+            downloadText('postboard.json'); 
+     });
+            
+            const label=document.getElementById('open_file');
+            const fileInput=document.getElementById('fileBtn');
+            label.addEventListener('click',function(e) {
+                e.preventDefault();
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change',function(e) {
+                const file=e.target.files[0];
+                const fr=new FileReader();
+                fr.onload = () => {
+                    const fileContent=fr.result;
+                    const jsonObj = JSON.parse(fileContent);
+                    posts.length = 0;
+            jsonObj.forEach(post => {
+                    const newPost = {
+                        id: post.id,
+                        author: post.author,
+                        content: post.content,
+                        date: post.date,
+                        comments: post.comments
+                };
+                    posts.push(newPost);
+            });
+            renderPosts();
+        };
+            fr.readAsText(file);
+        });
+
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const keyword = document.getElementById('searchInput').value.trim(); 
+            const filteredPosts = posts.filter(post => { 
+                return post.author.includes(keyword) || post.content.includes(keyword);
+            });
+            renderFilteredPosts(filteredPosts);
+           });
+           
+           document.getElementById('clearSearchButton').addEventListener('click', function() {
+            document.getElementById('searchInput').value = '';
+            renderPosts();
+           });
+            
+           function renderFilteredPosts(posts) {
+            postList.innerHTML='';
+            posts.forEach(function(post) {  
+                const newrow = document.createElement('tr'); 
+                    newrow.innerHTML = `  
+                        <td>${post.id}</td>  
+                        <td>${post.author}</td>
+                        <td>
+                            ${post.content} 
+                            <ul>
+                            ${post.comments.map(comment => `<li>${comment}</li>`).join('')}  
+                            </ul>
+                        </td>
+                        <td>${post.date}</td>
+                        <td>
+                            <div style="display: flex;justify-content: center;">
+                            <button onclick="deletePost(${post.id})">삭제</button>
+                            <button onclick="addComment(${post.id})">댓글</button>
+                            </div>
+                        </td>
+            `;
+            postList.appendChild(newrow);
+    });
+}
+        
+    
+        
+
+    </script>
+</body>
+</html>
